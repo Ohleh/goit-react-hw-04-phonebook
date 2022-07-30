@@ -25,8 +25,8 @@ const App = () => {
     if (!filter) return contacts;
     else {
       const normaliseLowerCase = filter.toLowerCase();
-      const visibleTodos = contacts.filter(contactName =>
-        contactName.name.toLowerCase().includes(normaliseLowerCase)
+      const visibleTodos = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normaliseLowerCase)
       );
       return visibleTodos;
     }
