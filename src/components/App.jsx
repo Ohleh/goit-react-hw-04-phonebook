@@ -14,21 +14,33 @@ const contactsData = [
 ];
 
 const App = () => {
-  const [contacts, setContacts] = useState([contactsData]);
+  const [contacts, setContacts] = useState(contactsData);
   const [filter, setFilter] = useState('');
+  console.log(filter);
 
   const formSubmitHendler = dataFromForm => {
     setContacts(s => [...s, { ...dataFromForm, id: nanoid() }]);
   };
-
-  const getVisibleTodos = useMemo(() => {
-    // console.log(contacts[1]);
-    return contacts.filter(contactName => {
-      // console.log(contactName.name);
-      contactName.name.toLowerCase().includes(filter.toLowerCase());
-    });
-  }, [contacts, filter]);
-
+  //
+  //
+  //
+  const getVisibleContacts = useMemo(() => {
+    if (!filter) return contacts;
+    else {
+      const ccc = contacts.map(contactName =>
+        contactName.name.includes(filter)
+      );
+      // let visibleTodos = contacts.filter(contactName => {
+      //   contactName.name.includes(filter);
+      // });
+      console.log(ccc);
+      // return visibleTodos;
+      return ccc;
+    }
+  }, [filter, contacts]);
+  //
+  //
+  //
   const deteleContact = id => {
     setContacts(s => s.filter(contact => contact.id !== id));
   };
@@ -55,7 +67,6 @@ const App = () => {
 
   // render() {
   // const { contacts, filter } = this.state;
-  // const visibleTodos = this.getVisibleTodos();
 
   return (
     <>
@@ -64,7 +75,7 @@ const App = () => {
         <Form onSubmitProp={formSubmitHendler} checkContacts={contacts} />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={changeFilter} />
-        <Contacts contacts={() => getVisibleTodos()} detele={deteleContact} />
+        <Contacts contacts={getVisibleContacts} detele={deteleContact} />
       </div>
     </>
   );
