@@ -14,7 +14,7 @@ const contactsData = [
 ];
 
 const App = () => {
-  const [contacts, setContacts] = useState(contactsData);
+  const [contacts, setContacts] = useState([contactsData]);
   const [filter, setFilter] = useState('');
 
   const formSubmitHendler = dataFromForm => {
@@ -22,9 +22,11 @@ const App = () => {
   };
 
   const getVisibleTodos = useMemo(() => {
-    return contacts.name.filter(contactName =>
-      contactName.toLowerCase().includes(filter.toLowerCase())
-    );
+    // console.log(contacts[1]);
+    return contacts.filter(contactName => {
+      // console.log(contactName.name);
+      contactName.name.toLowerCase().includes(filter.toLowerCase());
+    });
   }, [contacts, filter]);
 
   const deteleContact = id => {
