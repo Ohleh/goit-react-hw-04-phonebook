@@ -6,9 +6,6 @@ const Form = ({ checkContacts, onSubmitProp }) => {
   const [number, setNumber] = useState('');
 
   const handleChange = ev => {
-    // ev.preventDefault();
-    // console.log(ev.currentTarget.value);
-    // console.log(ev.target.name);
     switch (ev.target.name) {
       case 'name':
         setName(ev.target.value);
