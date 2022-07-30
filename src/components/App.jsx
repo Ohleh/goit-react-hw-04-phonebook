@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
 import Contacts from './Contacts';
 import Form from './Form';
 import Filter from './Filter';
-import { useMemo } from 'react';
 
 const contactsData = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -14,30 +13,17 @@ const contactsData = [
 ];
 
 const App = () => {
-  const [contacts, setContacts] = useState(contactsData);
+  const [contacts, setContacts] = useState(() => {
+    JSON.parse(window.localStorage.getItem('contactsStorage') ?? contactsData);
+  });
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    window.localStorage.setItem('contactsStorage', JSON.stringify(contacts));
+  }, [contacts]);
 
   const formSubmitHendler = dataFromForm => {
     setContacts(s => [...s, { ...dataFromForm, id: nanoid() }]);
-  };
-
-  const getVisibleContacts = useMemo(() => {
-    if (!filter) return contacts;
-    else {
-      const normaliseLowerCase = filter.toLowerCase();
-      const visibleTodos = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(normaliseLowerCase)
-      );
-      return visibleTodos;
-    }
-  }, [filter, contacts]);
-
-  const deteleContact = id => {
-    setContacts(s => s.filter(contact => contact.id !== id));
-  };
-
-  const changeFilter = e => {
-    setFilter(e.target.value);
   };
 
   // componentDidMount() {
@@ -55,6 +41,25 @@ const App = () => {
   //     localStorage.setItem('memory', JSON.stringify(this.state.contacts));
   //   }
   // }
+
+  const getVisibleContacts = useMemo(() => {
+    if (!filter) return contacts;
+    else {
+      const normaliseLowerCase = filter.toLowerCase();
+      const visibleContacts = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normaliseLowerCase)
+      );
+      return visibleContacts;
+    }
+  }, [filter, contacts]);
+
+  const deteleContact = id => {
+    setContacts(s => s.filter(contact => contact.id !== id));
+  };
+
+  const changeFilter = e => {
+    setFilter(e.target.value);
+  };
 
   return (
     <>
