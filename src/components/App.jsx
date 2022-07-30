@@ -14,8 +14,11 @@ const contactsData = [
 
 const App = () => {
   const [contacts, setContacts] = useState(() => {
-    JSON.parse(window.localStorage.getItem('contactsStorage') ?? contactsData);
+    return (
+      JSON.parse(window.localStorage.getItem('contactsStorage')) ?? contactsData
+    );
   });
+
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
