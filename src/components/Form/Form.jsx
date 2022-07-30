@@ -6,6 +6,9 @@ const Form = ({ checkContacts, onSubmitProp }) => {
   const [number, setNumber] = useState('');
 
   const handleChange = ev => {
+    // ev.preventDefault();
+    // console.log(ev.currentTarget.value);
+    // console.log(ev.target.name);
     switch (ev.target.name) {
       case 'name':
         setName(ev.target.value);
@@ -25,7 +28,7 @@ const Form = ({ checkContacts, onSubmitProp }) => {
         contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      return alert(`${{ name }} - is already exists`);
+      return alert(`${name} - is already exists`);
     }
 
     onSubmitProp({ name, number });
@@ -41,12 +44,11 @@ const Form = ({ checkContacts, onSubmitProp }) => {
         <input
           type="text"
           name="name"
-          // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          // required
+          required
           value={name}
           onChange={handleChange}
-          key={nanoid()}
         />
       </label>
       <label htmlFor={nanoid()}>
@@ -54,12 +56,11 @@ const Form = ({ checkContacts, onSubmitProp }) => {
         <input
           type="tel"
           name="number"
-          // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          // required
+          required
           value={number}
           onChange={handleChange}
-          key={nanoid()}
         />
       </label>
       <button type="submit">Add Contact</button>
