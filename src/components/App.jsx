@@ -16,31 +16,22 @@ const contactsData = [
 const App = () => {
   const [contacts, setContacts] = useState(contactsData);
   const [filter, setFilter] = useState('');
-  console.log(filter);
 
   const formSubmitHendler = dataFromForm => {
     setContacts(s => [...s, { ...dataFromForm, id: nanoid() }]);
   };
-  //
-  //
-  //
+
   const getVisibleContacts = useMemo(() => {
     if (!filter) return contacts;
     else {
-      const ccc = contacts.map(contactName =>
-        contactName.name.includes(filter)
+      const normaliseLowerCase = filter.toLowerCase();
+      const visibleTodos = contacts.filter(contactName =>
+        contactName.name.toLowerCase().includes(normaliseLowerCase)
       );
-      // let visibleTodos = contacts.filter(contactName => {
-      //   contactName.name.includes(filter);
-      // });
-      console.log(ccc);
-      // return visibleTodos;
-      return ccc;
+      return visibleTodos;
     }
   }, [filter, contacts]);
-  //
-  //
-  //
+
   const deteleContact = id => {
     setContacts(s => s.filter(contact => contact.id !== id));
   };
@@ -65,9 +56,6 @@ const App = () => {
   //   }
   // }
 
-  // render() {
-  // const { contacts, filter } = this.state;
-
   return (
     <>
       <div>
@@ -79,7 +67,6 @@ const App = () => {
       </div>
     </>
   );
-  // }
 };
 
 export default App;
